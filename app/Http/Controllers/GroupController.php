@@ -22,7 +22,7 @@ class GroupController extends Controller
 
     public function add($id)
     {
-        return view ('criteria.add', ['peerReviewId' => $id ]);
+        return view ('group.add', ['peerReviewId' => $id ]);
     }
 
     public function showEdit($id)
@@ -30,15 +30,38 @@ class GroupController extends Controller
         return view('group.edit',['group'=> Group::findorfail($id)]);
     }
 
-    public function showImportCsv($id){
+    public function saveEdit($id, Request $request)
+    {
+        $group = Group::findorfail($id);
+        $group->name = $request->name ;
+        $group->description = $request->description ;
+        $group-> save();
+        $request->session()->flash('alert-success', 'Group was successful edited!');
+        $link = "/editPeerReview/".$group->peer_review_id ;
+        return redirect ($link);
+    }
+
+    public function showImportCsv($id)
+    {
         return view('group.import',['groupId'=> $id ]);
+    }
+
+    public function save(Request $request){
+        $group = new Group();
+        $group-> name = $request->name ;
+        $group-> description = $request->description ;
+        $group -> peer_review_id = $request->peerReviewId ;
+        $group->save();
+        $request->session()->flash('alert-success', 'Group was successful created!');
+        $link = "/editPeerReview/".$group->peer_review_id ;
+        return redirect ($link);
     }
 
     public function saveImport($id, Request $request){
         $handle = fopen($request->file('csv'),'r') ;
         $header = true;
         $count = 0 ;
-        $linkId = Group::findorfail($id)->peer_review_id;
+        dd($id);
         while ($csvLine = fgetcsv($handle, 1000, ",")) {
             if ($header) {
                 $header = false;
@@ -54,19 +77,14 @@ class GroupController extends Controller
             }
         }
         $request->session()->flash('alert-success', $count.'person added');
-        $link = "/editPeerReview/". $linkId;
+        $link = "/editPeerReview/". $id;
         return redirect($link);
     }
 
     public function edit($id, Request $request){
-        $criteria = Criteria::findorfail($id);
-        $criteria->title = $request->title;
-        $criteria->description = $request->description ;
-        $criteria->save();
-        $request->session()->flash('alert-success', 'criteria was successful edited!');
-        $link = "/editPeerReview/". $criteria->peer_review_id;
-        return redirect($link);
+
     }
+
     public function index()
     {
     }
@@ -78,20 +96,6 @@ class GroupController extends Controller
         $criteria->delete();
         $request->session()->flash('alert-success', 'Criteria was successful deleted!');
         $link = "/editPeerReview/". $id;
-        return redirect($link);
-    }
-
-    public function save(Request $request)
-    {
-        $criteria = new Criteria();
-        $criteria->title = $request->title ;
-        $criteria->description = $request->description;
-        $criteria->peer_review_id = $request->peerReviewId;
-        $criteria->save();
-
-
-        $request->session()->flash('alert-success', 'criteria was successful added!');
-        $link = "/editPeerReview/". $criteria->peer_review_id;
         return redirect($link);
     }
 

@@ -14,9 +14,9 @@ class Peer_review extends Model
         return $this->hasMany('App\Criteria','peer_review_id','id');
     }
 
-    public function group()
+    public function groups()
     {
-        return $this->hasOne('App\Group','peer_review_id','id');
+        return $this->hasMany('App\Group','peer_review_id','id');
     }
 
 

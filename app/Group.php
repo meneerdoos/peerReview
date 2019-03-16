@@ -10,7 +10,7 @@ class Group extends Model
 
     public function peerReview()
     {
-        return $this->hasOne('App\Peer_review','id','peer_review_id');
+        return $this->belongsTo('App\Peer_review','id','peer_review_id');
     }
 
     public function people()

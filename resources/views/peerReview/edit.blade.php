@@ -91,28 +91,26 @@
         </tbody>
     </table>
     <a href="/addCriteria/{{$peerReview->id}}" ><button type="button" class="btn btn-primary"> add </button></a>
-    <h1> People </h1>
+
+
+    <h1> Groups </h1>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">id</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">email</th>
+            <th scope="col">name</th>
             <th scope="col"></th>
             <th scope="col"></th>
 
         </tr>
         </thead>
         <tbody>
-        @foreach( $peerReview->group()->first()->people()->get() as $person )
+        @foreach( $peerReview->groups()->get() as $group )
             <tr>
-                <td> {{ $person->id }} </td>
-                <td>{{ $person-> firstName }}</td>
-                <td>{{ $person-> lastName }}</td>
-                <td>{{ $person-> email }}</td>
-                <td><a href="" ><button type="button" class="btn btn-primary">edit</button></a> </td>
-                <td><form action="" method="POST">
+                <td> {{$group-> id }} </td>
+                <td>{{ $group-> name }}</td>
+                <td><a href="/editGroup/{{$group->id}}" ><button type="button" class="btn btn-primary">edit</button></a> </td>
+                <td><form action="/deleteGroup" method="POST">
                         {{ csrf_field() }}
 
                         <button type="submit" class="btn btn-primary">delete</button>
@@ -122,11 +120,11 @@
 
         </tbody>
     </table>
-    <a href="/editGroup/{{$peerReview->group()->first()->id }}" ><button type="button" class="btn btn-primary"> Import people </button></a>
-
+    <a href="/editPeerReview/{{$peerReview->id }}/addGroup" ><button type="button" class="btn btn-primary"> Add group </button></a>
 </div>
 
 </div>
+</br>
 
 </body>
 </html>

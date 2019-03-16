@@ -31,6 +31,16 @@ Route::post ('/editPeerReview/{id}',array('as' => 'editPeerReview', 'uses'=>'Pee
 Route::post('/deletePeerReview/{id}',array('as' => 'deletePeerReview', 'uses'=>'PeerReviewController@deletePeerReview'));
 
 
+//add group to peer review
+
+
+Route::get ('/editPeerReview/{id}/addGroup',array('as' => 'addGroup', 'uses'=>'GroupController@add'));
+
+Route::post ('/saveGroup',array('as' => 'saveGroup', 'uses'=>'GroupController@save'));
+
+
+
+
 //criteria
 Route::get ('/addCriteria/{id}', array ('as'=> 'addCriteria','uses'=>'CriteriaController@add'));
 
@@ -45,9 +55,10 @@ Route::post ('/deleteCriteria/{id}', array ('as'=> 'deleteCriteria','uses'=>'Cri
 //group
 
 Route::get ('/editGroup/{id}',array('as' => 'showEditGroup', 'uses'=>'GroupController@showEdit'));
+Route::post ('/editGroup/{id}',array('as' => 'showEditGroup', 'uses'=>'GroupController@saveEdit'));
 
 
-Route::get ('/editGroup/{id}',array('as' => 'importCsv', 'uses'=>'GroupController@showImportCsv'));
+Route::get ('/showImport/{id}',array('as' => 'importCsv', 'uses'=>'GroupController@showImportCsv'));
 
 Route::post ('/editGroup/{id}/saveImport',array('as' => 'saveImport', 'uses'=>'GroupController@saveImport'));
 

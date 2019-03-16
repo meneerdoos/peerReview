@@ -29,8 +29,7 @@ class PeerReviewController extends Controller
     public function showEditPeerReview($id)
     {
         $peerReview = Peer_review::findorfail($id);
-
-        return view('peerReview.edit',['peerReview'=> $peerReview, ]);
+        return view('peerReview.edit',['peerReview'=> $peerReview ]);
     }
 
     public function editPeerReview($id, Request $request){
@@ -65,9 +64,10 @@ class PeerReviewController extends Controller
         $peerReview->deadline = $request->deadline ;
         $peerReview->save();
 
-        $group = new Group();
-        $group->peer_review_id = $peerReview->id ;
-        $group->save();
+        //create a group when creating a peer review
+//        $group = new Group();
+//        $group->peer_review_id = $peerReview->id ;
+//        $group->save();
 
         $request->session()->flash('alert-success', 'Peer Review was successful added!');
         return redirect()->route("peerReviewIndex");
