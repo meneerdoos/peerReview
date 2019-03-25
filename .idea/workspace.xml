@@ -66,8 +66,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config/app.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="121" column="28" selection-start-line="121" selection-start-column="28" selection-end-line="121" selection-end-column="28" />
+            <state relative-caret-position="630">
+              <caret line="123" column="30" lean-forward="true" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -245,7 +245,7 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="2547" />
     <option name="width" value="1262" />
     <option name="height" value="685" />
@@ -412,12 +412,12 @@
       <workItem from="1553113608284" duration="8495000" />
       <workItem from="1553172112397" duration="13268000" />
       <workItem from="1553251024784" duration="12824000" />
-      <workItem from="1553525492530" duration="1423000" />
+      <workItem from="1553525492530" duration="1656000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109770000" />
+    <option name="totallyTimeSpent" value="110003000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1920" height="1035" extended-state="6" />
@@ -777,8 +777,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/app.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="121" column="28" selection-start-line="121" selection-start-column="28" selection-end-line="121" selection-end-column="28" />
+        <state relative-caret-position="630">
+          <caret line="123" column="30" lean-forward="true" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
         </state>
       </provider>
     </entry>
