@@ -122,6 +122,10 @@
     </table>
     <a href="/editPeerReview/{{$peerReview->id }}/addGroup" ><button type="button" class="btn btn-primary"> Add group </button></a>
 </div>
+<form action="/editPeerReview/{{$peerReview->id }}/notifyToComplete" method="post">
+    <input type="submit" name="complete" value="Notify" />
+</form>
+
 
 </div>
 </br>

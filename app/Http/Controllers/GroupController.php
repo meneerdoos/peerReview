@@ -61,7 +61,6 @@ class GroupController extends Controller
         $handle = fopen($request->file('csv'),'r') ;
         $header = true;
         $count = 0 ;
-        dd($id);
         while ($csvLine = fgetcsv($handle, 1000, ",")) {
             if ($header) {
                 $header = false;
