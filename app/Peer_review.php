@@ -20,6 +20,25 @@ class Peer_review extends Model
         return $this->hasMany('App\Group','peer_review_id','id');
     }
 
+    public function answers()
+    {
+        $criteria = $this->criteria()->get();
+        $answers = null ;
+        foreach ( $criteria as $crit )
+        {
+            if ( $answers == null )
+            {
+                $answers = $crit->answers()->get();
+            }
+            else
+            {
+                $answers = $answers->merge($crit->answers()->get());
+            }
+        }
+        return $answers ;
+
+    }
+
     public function people()
     {
         $groups = $this->groups()->get();

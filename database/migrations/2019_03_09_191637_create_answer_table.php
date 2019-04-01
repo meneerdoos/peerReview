@@ -18,6 +18,7 @@ class CreateAnswerTable extends Migration
             $table->integer('person_id');
             $table->integer('about_id');
             $table->integer('score');
+            $table->string('comment');
             $table->integer('criteria_id');
             $table->timestamps();
         });

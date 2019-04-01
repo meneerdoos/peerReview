@@ -66,9 +66,14 @@ Route::post ('/editGroup/{id}/saveImport',array('as' => 'saveImport', 'uses'=>'G
 //mail
 Route::post ('/editPeerReview/{id}/notifyToComplete',array('as' => 'notify', 'uses'=>'PeerReviewController@notify'));
 
+Route::get ('/overview/{id}',array('as' => 'showOverview', 'uses'=>'PeerReviewController@overview'));
+
 //fill in a peer review
 
 Route::get ('/{id}/{link}',array('as' => 'showPeerReview', 'uses'=>'PeerReviewController@show'));
 
 
 Route::post('/completePeerReview/{id}' , array('as' => 'completePeerReview', 'uses' => 'PeerReviewController@complete'));
+
+//overview
+

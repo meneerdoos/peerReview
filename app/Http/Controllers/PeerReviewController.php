@@ -76,7 +76,7 @@ class PeerReviewController extends Controller
         return redirect()->route("peerReviewIndex");
     }
 
-    public function notify($id)
+    public function notify($id, Request $request)
     {
         $peer_review = Peer_review::findorfail($id);
         $people = $peer_review->people();
@@ -97,7 +97,8 @@ class PeerReviewController extends Controller
             //Mail::to($person)->send(new NotifyToComplete($token, $id));
         }
         Mail::to($person)->send(new NotifyToComplete($token, $id));
-
+        $request->session()->flash('alert-success', 'A Notify has been sent');
+        return redirect()->route("peerReviewIndex");
     }
 
     public function show($id, $link)
@@ -106,7 +107,6 @@ class PeerReviewController extends Controller
         $personId = $person->id;
         $peerReview = Peer_review::findorfail($id);
         $people = $peerReview->people();
-        //ik ben hier dus uren mee bezig geweest en het lukt mij blijkbaar niet om één FUCKING item uit een FUCKING collection te gooien, FUCK YOU laravel
 
         $peopleFiltered = $people->filter(function($value) use ( $personId ){
             if ($value->id != $personId) {
@@ -138,8 +138,9 @@ class PeerReviewController extends Controller
             $answer-> person_id = $request->from;
             $answer->about_id = $request->about[$i];
             $answer->score = $request->score[$i];
-            //$answer->comment = $request->comment[$i];
-            //$answer->save();
+            $answer->comment = $request->comment[$i];
+            $answer->criteria_id = $request->criteria[$i];
+            $answer->save();
 
             $i++;
 
@@ -153,5 +154,12 @@ class PeerReviewController extends Controller
         return view('peerReview.complete');
     }
 
+    public function overview($id)
+    {
+        $peerReview = Peer_review::findorfail($id);
+        //dd($peerReview);
+        return view('peerReview.overview',['peerReview' => $peerReview ]);
+
+    }
 
 }

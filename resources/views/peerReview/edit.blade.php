@@ -125,6 +125,7 @@
 <form action="/editPeerReview/{{$peerReview->id }}/notifyToComplete" method="post">
     <input type="submit" name="complete" value="Notify" />
 </form>
+<a href="/overview/{{$peerReview->id}}" ><button type="button" class="btn btn-primary"> overview </button></a>
 
 
 </div>

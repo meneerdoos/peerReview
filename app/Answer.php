@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    //
+    protected $table = "answer";
+
+
+    public function criteria()
+    {
+            return $this->belongsTo('App\Criteria','id','peer_review_id');
+    }
+
+
+
+
 }
