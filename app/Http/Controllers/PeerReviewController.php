@@ -27,6 +27,14 @@ class PeerReviewController extends Controller
         return view ('peerReview.add');
     }
 
+    public function dashboard()
+    {
+        $peerReviews = Peer_review::all();
+        return view('peerReview.dashboard',['peerReviews'=> $peerReviews ]);
+
+
+    }
+
     public function showEditPeerReview($id)
     {
         $peerReview = Peer_review::findorfail($id);
@@ -46,7 +54,7 @@ class PeerReviewController extends Controller
     }
     public function index()
     {
-        return view ('peerReview.index', ['peerReviews' => Peer_review::all()]);
+        return view ('peerReview.index2', ['peerReviews' => Peer_review::all()]);
     }
 
     public function deletePeerReview($id, Request $request)
@@ -149,7 +157,7 @@ class PeerReviewController extends Controller
         //remove the token when the
         $persoon = Person::findorfail($request->from);
         $persoon->token = null ;
-        //$persoon->save();
+        $persoon->save();
 
         return view('peerReview.complete');
     }

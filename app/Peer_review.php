@@ -64,5 +64,27 @@ class Peer_review extends Model
 
     }
 
+    public function getProgress()
+    {
+        $people = $this->people();
+        if($people == null )
+        {
+            return 0;
+        }
+        else
+        {
+            $progress = 0;
+            $total = $people->count();
+            foreach ($people as $person)
+            {
+                if($person->token == null)
+                {
+                    $progress++;
+                }
+            }
+            //return (($progress * 100) /( $total) )
+            return 33 ;
+        }
 
+    }
 }
