@@ -77,13 +77,12 @@ class Peer_review extends Model
             $total = $people->count();
             foreach ($people as $person)
             {
-                if($person->token == null)
+                if($person->completed == 1)
                 {
                     $progress++;
                 }
             }
-            //return (($progress * 100) /( $total) )
-            return 33 ;
+            return (($progress * 100) /( $total) );
         }
 
     }

@@ -156,7 +156,7 @@ class PeerReviewController extends Controller
 
         //remove the token when the
         $persoon = Person::findorfail($request->from);
-        $persoon->token = null ;
+        $persoon->completed = 1 ;
         $persoon->save();
 
         return view('peerReview.complete');

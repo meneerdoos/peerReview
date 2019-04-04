@@ -5,6 +5,32 @@
 
     <script>
         console.log("loaded");
+        function show(person, criteria)
+        {
+            console.log(criteria);
+            id = person.id ;
+            tablename = "table" +person.id ;
+            chartname = "chart" +person.id ;
+            table = document.getElementById(tablename);
+            chart = document.getElementById(chartname);
+            console.log(table.style.display)
+            if(table.style.display == "none" )
+            {
+                console.log(true);
+                table.style.display = "block" ;
+                chart.style.display = "block" ;
+
+
+            }else
+            {
+                table.style.display = "none " ;
+                chart.style.display = "none" ;
+
+            }
+            console.log("table shown");
+
+        }
+
         function peerReviewGraphs(peerReview){
             console.log(peerReview);
             var ctx = $('#myChart');
@@ -59,51 +85,52 @@
         @endif
     @endforeach
 </div>
-    <canvas id="myChart" width="400" height="400"></canvas>
 <div class="container">
     <button onclick="peerReviewGraphs({{$peerReview}})">load</button>
     @foreach( $peerReview->people() as $person )
-    {{--<h3>{{$person->firstName}}</h3>--}}
+        {{--{{dd($person->peerReview()->answers()->where(['about_id' => $person->id ]))}}--}}
+        <a href="#" onclick="show( {{$person}} )"><h3><i class="fas fa-user"></i>{{$person->firstName}}</h3></a>
     {{--<p> Pa factor : {{$person->calculatePAfactor() }}</p>--}}
     {{--<p> Pa factorscore : {{ $person->calculatePAfactorscore() }}</p>--}}
-        {{--<table class="table">--}}
-        {{--<thead>--}}
-        {{--<tr>--}}
-            {{--<th> </th>--}}
+        <table id="table{{$person->id}}" class="table" style="display: none">
+        <thead>
+        <tr>
+            <th> </th>
 
-        {{--@foreach($peerReview->people() as $pers )--}}
-                {{--@if($person->id != $pers->id )--}}
-                    {{--<th scope="col">{{$pers->firstName}} {{$pers->lastName}}</th>--}}
-                {{--@endif--}}
-        {{--@endforeach--}}
+        @foreach($peerReview->people() as $pers )
+                @if($person->id != $pers->id )
+                    <th scope="col">{{$pers->firstName}} {{$pers->lastName}}</th>
+                @endif
+        @endforeach
 
-        {{--</tr>--}}
-        {{--</thead>--}}
-        {{--<tbody>--}}
-            {{--@foreach($peerReview->criteria()->get() as $crit)--}}
-                {{--<tr>--}}
-                    {{--<td>{{$crit->title}}</td>--}}
-                    {{--@foreach($peerReview->people() as $pers )--}}
-                        {{--@if($person->id != $pers->id )--}}
-                            {{--<td scope="col">--}}
+        </tr>
+        </thead>
+        <tbody>
+            @foreach($peerReview->criteria()->get() as $crit)
+                <tr>
+                    <td>{{$crit->title}}</td>
+                    @foreach($peerReview->people() as $pers )
+                        @if($person->id != $pers->id )
+                            <td scope="col">
                                 {{--{{dd($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ]))}}--}}
 
-                                {{--@if( ($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()) == null )--}}
-                                    {{--x--}}
-                                {{--@else--}}
-                                    {{--{{$crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()->score}}--}}
-                                {{--@endif--}}
-                            {{--</td>--}}
-                        {{--@endif--}}
-                    {{--@endforeach--}}
+                                @if( ($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()) == null )
+                                    x
+                                @else
+                                    {{$crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()->score}}
+                                @endif
+                            </td>
+                        @endif
+                    @endforeach
 
-                {{--</tr>--}}
-            {{--@endforeach--}}
+                </tr>
+            @endforeach
 
-        {{--</tbody>--}}
-    {{--</table>--}}
+        </tbody>
+    </table>
+        <canvas id="chart{{$person->id}}" style="display: none" width="400" height="400"></canvas>
 
-        @endforeach
+    @endforeach
 </div>
 </body>
 </html>

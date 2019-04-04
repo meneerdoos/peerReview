@@ -1,6 +1,9 @@
 @extends('template')
 @section('content')
 <div class="container">
+    @if($peerReviews->isempty() )
+        <h3>You have not created any peer reviews yet. Start by selecting Peer reviews in the menu </h3>
+    @endif
     @foreach($peerReviews as $peerReview)
     <div class="col-md-4">
         <a href="/overview/{{$peerReview->id}}">

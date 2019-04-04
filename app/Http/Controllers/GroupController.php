@@ -71,6 +71,7 @@ class GroupController extends Controller
                 $persoon -> email = $csvLine[2];
                 $persoon->group_id = $request->groupId ;
                 $persoon->uniqueLink = '123';
+                $persoon->completed = 0 ;
                 $persoon->save();
                 $count ++;
             }
