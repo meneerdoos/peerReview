@@ -311,7 +311,7 @@
                                 <tr>
                                     <td>
                                         <p>Hi there,</p>
-                                        <p>Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.</p>
+                                        <p>This is a reminder that the peer review has to be completed by {{$date}}</p>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                             <tbody>
                                             <tr>
@@ -327,8 +327,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <p>This is a really simple email template. Its sole purpose is to get the recipient to click the button with no distractions.</p>
-                                        <p>Good luck! Hope it works.</p>
+                                        <p>Good luck! </p>
                                     </td>
                                 </tr>
                             </table>
@@ -341,19 +340,7 @@
 
                 <!-- START FOOTER -->
                 <div class="footer">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td class="content-block">
-                                <span class="apple-link">Company Inc, 3 Abbey Road, San Francisco CA 94102</span>
-                                <br> Don't like these emails? <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="content-block powered-by">
-                                Powered by <a href="http://htmlemail.io">HTMLemail</a>.
-                            </td>
-                        </tr>
-                    </table>
+
                 </div>
                 <!-- END FOOTER -->
 

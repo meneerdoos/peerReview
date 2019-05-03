@@ -53,6 +53,7 @@ class CriteriaController extends Controller
 
     public function save(Request $request)
     {
+        $richtingen = $request->richting;
         $criteria = new Criteria();
         $criteria->title = $request->title ;
         $criteria->description = $request->description;

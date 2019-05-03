@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
 <body>
+<script src="/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.0/parsley.js" type="text/javascript"></script>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/"> Projec </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +25,7 @@
 </nav>
 <div class="container">
     <h2>Peer Review #{{$id}} </h2><br  />
-    <form method="post" action="/completePeerReview/{{$id}}">
+    <form data-parsley-validate="" method="post" action="/completePeerReview/{{$id}}">
             {!! csrf_field() !!}
     @foreach($people as $person)
         <h1> {{ $person-> firstName }}</h1>
@@ -31,16 +35,25 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="form-group col-md-4">
-                        <label for="score">Score:</label>
-                        <input type="text" class="form-control" name="score[]" value = " ">
+                        <select required="" name="score[]">
+                            <option value="-1">-1 werkt niet mee</option>
+                            <option value="0">0 werkt weinig mee</option>
+                            <option value="1">1 werkt mee</option>
+                            <option value="2">2 werkt goed mee</option>
+                        </select>
+
+                        {{--<input type="text" class="form-control" name="score[]" value = " ">--}}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="form-group col-md-4">
-                        <label for="comment">Comment:</label>
-                        <input type="textarea" class="form-control" name="comment[]" value = " ">
+                        <i class="fas fa-pencil-alt prefix"></i>
+                        <textarea required="" name="comment[]" class="md-textarea form-control" rows="3"></textarea>
+                        <label for="comment">comment</label>
+                        {{--<label for="comment">Comment:</label>--}}
+                        {{--<input type="textarea" class="form-control" name="comment[]" value = " ">--}}
                     </div>
                 </div>
 

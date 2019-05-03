@@ -11,21 +11,21 @@
 </div>
 <div class="container">
     <h2>Edit a new peer review </h2><br  />
-    <form method="post" action="/editCriteria/{{$criteria->peer_review_id}}">
+    <form method="post" data-parsley-validate="" action="/editCriteria/{{$criteria->peer_review_id}}">
         {!! csrf_field() !!}
 
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
                 <label for="title">Title:</label>
-                <input type="text" class="form-control" name="title" value = "{{$criteria->title}}">
+                <input required="" type="text" class="form-control" name="title" value = "{{$criteria->title}}">
             </div>
         </div>
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
                 <label for="description">Description:</label>
-                <input type="text" class="form-control" name="description" value = "{{$criteria->description}}">
+                <input required="" type="text" class="form-control" name="description" value = "{{$criteria->description}}">
             </div>
         </div>
 

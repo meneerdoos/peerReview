@@ -1,14 +1,14 @@
 @extends('template')
 
 @section('content')
-<form method="post" action="/editGroup/{{$groupId}}/saveImport" enctype="multipart/form-data" >
+<form data-parsley-validate="" method="post" action="/editGroup/{{$groupId}}/saveImport" enctype="multipart/form-data" >
     {!! csrf_field() !!}
 
     <div class="row">
         <div class="col-md-4"></div>
         <div class="form-group col-md-4">
             <label for="title">select csv:</label>
-            <input type="file" name="csv" >
+            <input required="" type="file" name="csv" >
         </div>
     </div>
     <input type="hidden" id="peerReviewId" name="groupId" value="{{$groupId}}">

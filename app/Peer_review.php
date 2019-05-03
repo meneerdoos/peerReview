@@ -59,10 +59,6 @@ class Peer_review extends Model
 
     }
 
-    public function getStatus()
-    {
-
-    }
 
     public function getProgress()
     {
@@ -82,7 +78,7 @@ class Peer_review extends Model
                     $progress++;
                 }
             }
-            return (($progress * 100) /( $total) );
+            return round((($progress * 100) /( $total) ),2);
         }
 
     }

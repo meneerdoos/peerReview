@@ -12,21 +12,21 @@
 </div>
 <div class="container">
     <h2>Edit a new peer review </h2><br  />
-    <form method="post" action="/editPeerReview/{{$peerReview->id}}">
+    <form data-parsley-validate="" method="post" action="/editPeerReview/{{$peerReview->id}}">
         {!! csrf_field() !!}
 
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
                 <label for="title">Title:</label>
-                <input type="text" class="form-control" name="title" value = "{{$peerReview->title}}">
+                <input required="" type="text" class="form-control" name="title" value = "{{$peerReview->title}}">
             </div>
         </div>
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
                 <label for="description">Description:</label>
-                <input type="text" class="form-control" name="description" value = "{{$peerReview->description}}">
+                <input required="" type="text" class="form-control" name="description" value = "{{$peerReview->description}}">
             </div>
         </div>
 
@@ -34,7 +34,7 @@
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
                 <label for="deadline">Deadline:</label>
-                <input type="date" class="form-control" name="deadline" value = "{{$peerReview->deadline}}">
+                <input required="" type="date" class="form-control" name="deadline" value = "{{$peerReview->deadline}}">
             </div>
         </div>
 
@@ -108,10 +108,7 @@
     </table>
     <a href="/editPeerReview/{{$peerReview->id }}/addGroup" ><button type="button" class="btn btn-primary"> Add group </button></a>
     </div>
-<form action="/editPeerReview/{{$peerReview->id }}/notifyToComplete" method="post">
-    <input type="submit" name="complete" value="Notify" />
-</form>
-<a href="/overview/{{$peerReview->id}}" ><button type="button" class="btn btn-primary"> overview </button></a>
+
 
 
 </div>

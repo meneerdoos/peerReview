@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Criteria extends Model
 {
@@ -16,4 +17,5 @@ class Criteria extends Model
     {
         return $this->hasMany('App\Answer', 'criteria_id', 'id');
     }
+
 }

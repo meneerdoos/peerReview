@@ -33,6 +33,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/deletePeerReview/{id}', array('as' => 'deletePeerReview', 'uses' => 'PeerReviewController@deletePeerReview'));
 
+    //lists
+    Route::get('/lists', array('as' => 'listsIndex', 'uses' => 'ListController@Index'));
+
+    Route::get('/addList', array('as' => 'addList', 'uses' => 'ListController@add'));
+
+    Route::post('/saveList', array('as' => 'saveList', 'uses' => 'ListController@save'));
+
 
 //add group to peer review
 
@@ -40,6 +47,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/editPeerReview/{id}/addGroup', array('as' => 'addGroup', 'uses' => 'GroupController@add'));
 
     Route::post('/saveGroup', array('as' => 'saveGroup', 'uses' => 'GroupController@save'));
+
+//peer review wizard
+//
+    Route::get('/stepOne', array('as' => 'showStepOne', 'uses' => 'PeerReviewController@showStepOne'));
+    Route::post('/saveStepOne', array('as' => 'saveStepOne', 'uses' => 'PeerReviewController@saveStepOne'));
+
+    Route::get('/stepTwo/{id}', array('as' => 'showStepTwo', 'uses' => 'PeerReviewController@showStepTwo'));
+    Route::post('/saveStepTwo', array('as' => 'saveStepTwo', 'uses' => 'PeerReviewController@saveStepTwo'));
+
+    Route::get('/stepThree/{id}', array('as' => 'showStepThree', 'uses' => 'PeerReviewController@showStepThree'));
+
+    Route::post('/saveStepThree', array('as' => 'saveStepThree', 'uses' => 'PeerReviewController@saveStepThree'));
+
+    Route::get('/stepFour/{id}', array('as' => 'showStepFour', 'uses' => 'PeerReviewController@showStepFour'));
+
+    Route::post('/saveStepFour/{id}', array('as' => 'saveStepFour', 'uses' => 'PeerReviewController@saveStepFour'));
 
 
 //criteria

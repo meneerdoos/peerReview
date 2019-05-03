@@ -5,15 +5,14 @@
 
     <script>
         console.log("loaded");
-        function show(person, criteria)
+        function show(id, graphdata)
         {
-            console.log(criteria);
-            id = person.id ;
-            tablename = "table" +person.id ;
-            chartname = "chart" +person.id ;
+            //display the table which is hidden
+            id = id ;
+            tablename = "table" +id ;
+            chartname = "chart" +id ;
             table = document.getElementById(tablename);
             chart = document.getElementById(chartname);
-            console.log(table.style.display)
             if(table.style.display == "none" )
             {
                 console.log(true);
@@ -27,37 +26,28 @@
                 chart.style.display = "none" ;
 
             }
-            console.log("table shown");
-
+            //display the graph per person
+            peerReviewGraphs(graphdata, chartname );
         }
 
-        function peerReviewGraphs(peerReview){
-            console.log(peerReview);
-            var ctx = $('#myChart');
+        function peerReviewGraphs(graphdata, chart){
+
+
+
+
+            chart = "#"+chart;
+            var ctx = $(chart);
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: Object.keys(graphdata),
                     datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
+                        label: 'score ',
+                        data: Object.values(graphdata),
+
+                        borderWidth: 1,
+                        backgroundColor: "rgba(64,224,208,1)"
+
                     }]
                 },
                 options: {
@@ -71,11 +61,9 @@
                     }
                 }
             });
-        }
-        function personGraphs()
-        {
 
         }
+
     </script>
 <div class="flash-message">
     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -86,51 +74,72 @@
     @endforeach
 </div>
 <div class="container">
-    <button onclick="peerReviewGraphs({{$peerReview}})">load</button>
-    @foreach( $peerReview->people() as $person )
-        {{--{{dd($person->peerReview()->answers()->where(['about_id' => $person->id ]))}}--}}
-        <a href="#" onclick="show( {{$person}} )"><h3><i class="fas fa-user"></i>{{$person->firstName}}</h3></a>
-    {{--<p> Pa factor : {{$person->calculatePAfactor() }}</p>--}}
-    {{--<p> Pa factorscore : {{ $person->calculatePAfactorscore() }}</p>--}}
-        <table id="table{{$person->id}}" class="table" style="display: none">
-        <thead>
-        <tr>
-            <th> </th>
+    @foreach($peerReview->groups()->get() as $group)
+        <div class="col-md-8">
+                <div class="card ">
+                    <div class="card-header ">
 
-        @foreach($peerReview->people() as $pers )
-                @if($person->id != $pers->id )
-                    <th scope="col">{{$pers->firstName}} {{$pers->lastName}}</th>
-                @endif
-        @endforeach
+                        <h4 class="card-title">{{$group->name}}</h4>
+                        <p>total: {{$group->getTotalScore()}} average: {{$group->getAvg()}} average score: {{$group->getAvgScore()}}</p>
+                    </div>
+                    <div class="card-footer ">
+                        <div class="legend">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{$peerReview->getProgress()}}%;" aria-valuenow="{{$group->getProgress()}}" aria-valuemin="0" aria-valuemax="100">{{$peerReview->getProgress()}}%</div>
+                            </div>
+                            <p><i class="fas fa-comment"></i> {{$group->description }}</p>
+                        @foreach($group->people()->get() as $person)
+                                <p> <a href="#" onclick="show(({{$person->id}}), {{$person->getGraphData()}}  )"><i class="fas fa-user"></i> {{$person->firstName}} </a>  @if($person->hasCompleted() )<i class="fas fa-check"></i> @else <i class="fas fa-times"></i> @endif </p>
+                                <table id="table{{$person->id}}" class="table" style="display: none">
+                                    <thead>
+                                    <tr>
+                                        <th> </th>
 
-        </tr>
-        </thead>
-        <tbody>
-            @foreach($peerReview->criteria()->get() as $crit)
-                <tr>
-                    <td>{{$crit->title}}</td>
-                    @foreach($peerReview->people() as $pers )
-                        @if($person->id != $pers->id )
-                            <td scope="col">
-                                {{--{{dd($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ]))}}--}}
+                                        @foreach($peerReview->people() as $pers )
+                                            @if($person->id != $pers->id )
+                                                <th scope="col">{{$pers->firstName}} {{$pers->lastName}}</th>
+                                            @endif
+                                        @endforeach
 
-                                @if( ($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()) == null )
-                                    x
-                                @else
-                                    {{$crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()->score}}
-                                @endif
-                            </td>
-                        @endif
-                    @endforeach
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($peerReview->criteria()->get() as $crit)
+                                        <tr>
+                                            <td>{{$crit->title}}</td>
+                                            @foreach($peerReview->people() as $pers )
+                                                @if($person->id != $pers->id )
+                                                    <td scope="col">
+                                                        {{--{{dd($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ]))}}--}}
 
-                </tr>
-            @endforeach
+                                                        @if( ($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()) == null )
+                                                            x
+                                                        @else
+                                                            {{$crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ])->first()->score}}
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                            @endforeach
 
-        </tbody>
-    </table>
-        <canvas id="chart{{$person->id}}" style="display: none" width="400" height="400"></canvas>
+                                        </tr>
+                                    @endforeach
 
+                                    </tbody>
+                                </table>
+                                <canvas id="chart{{$person->id}}" style="display: none" ></canvas>
+                                <p> PA Factor: {{$person->calculatePAfactor()}} PA Factorscore: {{$person->calculatePAFactorscore()}} total : {{$person->getTotalScore()}}  avg: {{$person->getAvgScore()}}</p>
+                            @endforeach
+
+                        </div>
+                        <hr>
+
+                    </div>
+
+                </div>
+        </div>
     @endforeach
+
+
 </div>
 </body>
 </html>

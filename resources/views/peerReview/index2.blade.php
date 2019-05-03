@@ -43,7 +43,7 @@
 
     </tbody>
 </table>
-    <a href="/addPeerReview" ><button type="button" class="btn btn-primary"> add </button></a>
+    <a href="/stepOne" ><button type="button" class="btn btn-primary"> add </button></a>
 
 </div>
 @endsection

@@ -10,6 +10,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public function peerReview()
+    {
+        return $this->hasMany('App\Peer_review','user_id','id');
+    }
     /**
      * The attributes that are mass assignable.
      *

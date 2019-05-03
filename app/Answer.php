@@ -11,7 +11,7 @@ class Answer extends Model
 
     public function criteria()
     {
-            return $this->belongsTo('App\Criteria','id','peer_review_id');
+            return $this->belongsTo('App\Criteria','criteria_id','id');
     }
 
 

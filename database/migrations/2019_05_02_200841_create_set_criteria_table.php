@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePeerReview extends Migration
+class CreateSetCriteriaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreatePeerReview extends Migration
      */
     public function up()
     {
-        Schema::create('peer_reviews', function (Blueprint $table) {
-            $table->increments('id');
-            $table-> integer('user_id');
-            $table->string('title');
-            $table->string('description');
-            $table->date('deadline');
+        Schema::create('set_criteria', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('set_id');
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreatePeerReview extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('peer_reviews');
+        Schema::dropIfExists('set_criteria');
     }
 }

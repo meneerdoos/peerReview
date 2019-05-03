@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Group;
+use App\Criteria;
 use App\Mail\NotifyToComplete;
 use App\Peer_review;
 use App\Person;
+use App\Set;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Expr\Array_;
 
 class PeerReviewController extends Controller
 {
@@ -29,7 +33,7 @@ class PeerReviewController extends Controller
 
     public function dashboard()
     {
-        $peerReviews = Peer_review::all();
+        $peerReviews = Auth::user()->peerReview()->get();
         return view('peerReview.dashboard',['peerReviews'=> $peerReviews ]);
 
 
@@ -54,7 +58,8 @@ class PeerReviewController extends Controller
     }
     public function index()
     {
-        return view ('peerReview.index2', ['peerReviews' => Peer_review::all()]);
+        $peerReviews = Auth::user()->peerReview()->get();
+        return view ('peerReview.index2', ['peerReviews' => $peerReviews ]);
     }
 
     public function deletePeerReview($id, Request $request)
@@ -69,25 +74,19 @@ class PeerReviewController extends Controller
     {
         $peerReview = new Peer_review();
         $peerReview->title = $request->title ;
-        $peerReview->user_id = 1 ;
+        $peerReview->user_id =  Auth::user()->id;
         $peerReview->description = $request->description ;
-        $peerReview->state = 0 ;
         $peerReview->deadline = $request->deadline ;
         $peerReview->save();
 
-        //create a group when creating a peer review
-//        $group = new Group();
-//        $group->peer_review_id = $peerReview->id ;
-//        $group->save();
-
-        $request->session()->flash('alert-success', 'Peer Review was successful added!');
-        return redirect()->route("peerReviewIndex");
+        return $peerReview->id  ;
     }
 
     public function notify($id, Request $request)
     {
         $peer_review = Peer_review::findorfail($id);
         $people = $peer_review->people();
+        $date = $peer_review->deadline;
 
         foreach ($people as $person )
         {
@@ -104,7 +103,7 @@ class PeerReviewController extends Controller
 
             //Mail::to($person)->send(new NotifyToComplete($token, $id));
         }
-        Mail::to($person)->send(new NotifyToComplete($token, $id));
+        Mail::to($person)->send(new NotifyToComplete($token, $id,$date));
         $request->session()->flash('alert-success', 'A Notify has been sent');
         return redirect()->route("peerReviewIndex");
     }
@@ -134,9 +133,151 @@ class PeerReviewController extends Controller
 
     }
 
+    public function showStepOne()
+    {
+        return view ('peerReview.stepOne');
+    }
+
+    public function saveStepOne(Request $request)
+    {
+        $peerReviewId = $this->savePeerReview($request);
+        return redirect()->route("showStepTwo",['id' => $peerReviewId ]);
+
+    }
+
+
+    public function showStepTwo($id)
+    {
+           return view ('peerReview.stepTwo ',['peerReviewId' => $id ]);
+    }
+
+    public function saveStepTwo(Request $request)
+    {
+        $count = 0 ;
+        $sets = $request->set;
+        if ($sets !== null )
+        {
+            foreach( $sets as $set)
+            {
+                $s = Set::findorfail($set);
+                $criteria = $s->setCriteria()->get();
+                foreach ($criteria as $crit )
+                {
+                    $c = new Criteria();
+                    $c->title = $crit->title ;
+                    $c->description = $crit->description ;
+                    $c->peer_review_id = $request->peerReviewId;
+                    $c->save();
+                }
+            }
+        }
+
+        if( !empty($request->title) )
+        {
+            foreach ($request->title as $name)
+            {
+                if (!empty($name))
+                {
+                    $criteria = new Criteria();
+                    $criteria->title = $request->title[$count];
+                    $criteria->description = $request->description[$count];
+                    $criteria->peer_review_id = $request->peerReviewId ;
+                    $criteria->save();
+                    $count ++ ;
+                }
+
+
+            }
+        }
+
+        return redirect()->route("showStepThree", ['peerReviewId' => $request->peerReviewId ]);
+    }
+
+    public function showStepThree($id)
+    {
+        return view ( 'peerReview.stepThree', ['peerReviewId' => $id ]);
+    }
+    public function saveStepThree(Request $request)
+    {
+        $handle = fopen($request->file('csv'),'r') ;
+        $header = true;
+        $count = 0 ;
+        $groups =[];
+        while ($csvLine = fgetcsv($handle, 1000, ",")) {
+            if ($header) {
+                $header = false;
+            } else {
+                if(!array_key_exists($csvLine[3],$groups))
+                {
+                    $group = new Group();
+                    $group-> name = "group".$csvLine[3] ;
+                    $group-> description = "group description" ;
+                    $group -> peer_review_id = $request->peerReviewId ;
+                    $group->save();
+                    $groups[$csvLine[3]]=$group->id;
+
+                    $persoon = new Person();
+                    $persoon -> firstName = $csvLine[0];
+                    $persoon -> lastName = $csvLine[1];
+                    $persoon -> email = $csvLine[2];
+                    $persoon->group_id = $group->id ;
+                    $persoon->uniqueLink = null;
+                    $persoon->completed = 0 ;
+                    $persoon->save();
+                    $count ++;
+
+                }
+                else{
+                    $persoon = new Person();
+                    $persoon -> firstName = $csvLine[0];
+                    $persoon -> lastName = $csvLine[1];
+                    $persoon -> email = $csvLine[2];
+                    $persoon->group_id = $groups[$csvLine[3]] ;
+                    $persoon->uniqueLink = null;
+                    $persoon->completed = 0 ;
+                    $persoon->save();
+                    $count ++;
+                }
+            }
+        }
+
+        return redirect()->route("showStepFour", ['peerReviewId' => $request->peerReviewId ]);
+    }
+
+    public function showStepFour($id)
+    {
+        return view ( 'peerReview.stepFour', ['peerReviewId' => $id ]);
+    }
+
+    public function saveStepFour($id)
+    {
+        $peer_review = Peer_review::findorfail($id);
+        $people = $peer_review->people();
+        $date = $peer_review->deadline;
+
+        foreach ($people as $person )
+        {
+            $token = str_random(10);
+            while (Person::where('token', $token)->first())
+            {
+                $token = str_random(10);
+            }
+            $person->token = $token ;
+            $person->save();
+
+            //Mail part is commented out because it sends error 505 too many per s
+            //Has a hard limit of 3 mails per second , upgrade or get another
+
+            //Mail::to($person)->send(new NotifyToComplete($token, $id));
+        }
+        Mail::to($person)->send(new NotifyToComplete($token, $id, $date));
+        return redirect()->route("dashboard");
+    }
+
 
     public function complete( $id, Request $request)
     {
+        dd($request);
         //to iterate over all the person
         $i = 0;
 
@@ -157,6 +298,7 @@ class PeerReviewController extends Controller
         //remove the token when the
         $persoon = Person::findorfail($request->from);
         $persoon->completed = 1 ;
+        $persoon->token = null ;
         $persoon->save();
 
         return view('peerReview.complete');
@@ -165,9 +307,7 @@ class PeerReviewController extends Controller
     public function overview($id)
     {
         $peerReview = Peer_review::findorfail($id);
-        //dd($peerReview);
         return view('peerReview.overview',['peerReview' => $peerReview ]);
 
     }
-
 }

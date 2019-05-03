@@ -21,6 +21,9 @@
     <!--  Light Bootstrap Table core CSS    -->
     <link href="/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
 
+    <link rel="stylesheet" type="text/css" href="/css/progressbar.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya+Sans' rel='stylesheet' type='text/css'>
+
     <!--     Fonts and icons     -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="/css/pe-icon-7-stroke.css" rel="stylesheet" />
@@ -51,7 +54,12 @@
                         <p>Peer Reviews </p>
                     </a>
                 </li>
-
+                <li >
+                    <a href="/lists">
+                        <i class="fas fa-list"></i>
+                        <p>Peer Reviews Criteria </p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -128,26 +136,29 @@
 </div>
 
 
-</body>
+
 
 <!--   Core JS Files   -->
 <script src="/js/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="/js/bootstrap.min.js" type="text/javascript"></script>
 
+
 <!--  Charts Plugin -->
-<script src="/js/chartist.min.js"></script>
+{{--<script src="/js/chartist.min.js"></script>--}}
 
 <!--  Notifications Plugin    -->
-<script src="/js/bootstrap-notify.js"></script>
+{{--<script src="/js/bootstrap-notify.js"></script>--}}
 
 <!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+{{--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>--}}
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 <script src="/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
 
 <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script src="/js/demo.js"></script>
+{{--<script src="/js/demo.js"></script>--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.0/parsley.js" type="text/javascript"></script>
+</body>
 
 
 </html>
