@@ -3,10 +3,11 @@
 @section('content')
     <script>
         console.log("loaded");
+        console.log("je hebt")
+        
         function addFields () {
             var place = document.getElementById('newFields');
-            place.innerHTML += ''+
-                ' <div class="row">\n' +
+            var html =  ' <div class="row">\n' +
                 '                <div class="col-md-4"></div>\n' +
                 '                <div class="form-group col-md-4">\n' +
                 '                    <label for="title">Title:</label>\n' +
@@ -17,9 +18,33 @@
                 '                <div class="col-md-4"></div>\n' +
                 '                <div class="form-group col-md-4">\n' +
                 '                    <label for="description">Description:</label>\n' +
-                '                    <input  type="text" class="form-control" name="description[]">\n' +
+                '                    <input  value=" " type="text" class="form-control" name="description[]">\n' +
                 '                </div>\n' +
-                '            </div>'
+                '            </div>';
+
+            var row = document.createElement('div');
+            row.className= "row";
+            row.innerHTML = html ;
+
+                place.appendChild(row);
+
+            // place.appendChild(t);
+
+            // place.innerHTML += ''+
+            //     ' <div class="row">\n' +
+            //     '                <div class="col-md-4"></div>\n' +
+            //     '                <div class="form-group col-md-4">\n' +
+            //     '                    <label for="title">Title:</label>\n' +
+            //     '                    <input  type="text" class="form-control" name="title[]">\n' +
+            //     '                </div>\n' +
+            //     '            </div>\n' +
+            //     '            <div class="row">\n' +
+            //     '                <div class="col-md-4"></div>\n' +
+            //     '                <div class="form-group col-md-4">\n' +
+            //     '                    <label for="description">Description:</label>\n' +
+            //     '                    <input  value=" " type="text" class="form-control" name="description[]">\n' +
+            //     '                </div>\n' +
+            //     '            </div>'
         }
 
     </script>

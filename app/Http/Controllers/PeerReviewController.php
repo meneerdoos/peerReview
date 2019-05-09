@@ -178,8 +178,10 @@ class PeerReviewController extends Controller
             {
                 if (!empty($name))
                 {
+
                     $criteria = new Criteria();
                     $criteria->title = $request->title[$count];
+
                     $criteria->description = $request->description[$count];
                     $criteria->peer_review_id = $request->peerReviewId ;
                     $criteria->save();
@@ -277,7 +279,6 @@ class PeerReviewController extends Controller
 
     public function complete( $id, Request $request)
     {
-        dd($request);
         //to iterate over all the person
         $i = 0;
 

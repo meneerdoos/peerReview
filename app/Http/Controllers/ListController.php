@@ -67,13 +67,16 @@ class ListController extends Controller
         {
             if( !empty($tit))
             {
-                $setCriteria = new Setcriteria();
-                $setCriteria->title = $request->title[$count];
-                $setCriteria->description = $request->description[$count];
-                $setCriteria->set_id = $set->id ;
-                $setCriteria->save();
-                $setCriteria->id;
-                $count++;
+                if( (!empty($request->title[$count])) & (!empty($request->description[$count]))) {
+                    $setCriteria = new Setcriteria();
+                    $setCriteria->title = $request->title[$count];
+                    $setCriteria->description = $request->description[$count];
+                    $setCriteria->set_id = $set->id ;
+                    $setCriteria->save();
+                    $setCriteria->id;
+                    $count++;
+                }
+
             }
 
         }

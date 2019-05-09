@@ -41,49 +41,10 @@ class Person extends Model
                     $count++;
                     $amount += $criteria->score;
                 }
-                $data[$criteriaName] = round((($amount) / 2), 2);
+                $data[$criteriaName] = round((($amount) / $count ), 2);
             }
 
         }
-
-//            dd($criteria);
-//            $personName = Person::findorfail($answer->person_id)->firstName;
-//            $responses = $answers->where('person_id', $answer->person_id );
-//            $data2 = [];
-//            if(! array_key_exists($personName, $data))
-//            {
-//                $count  = 0 ;
-//                $value = 0 ;
-//                foreach ($responses as $respons )
-//                {
-//                    $count ++ ;
-//                    dd($respons);
-//                    $value += $respons->score ;
-//                }
-//
-//
-//            }
-//
-//
-//
-//
-//        }
-//
-//        foreach ( $answers as $answer)
-//        {
-//            $personName = Person::findorfail($answer->person_id)->firstName;
-//            if (!array_key_exists($personName, $data))
-//            {
-//                $data[$personName] = [];
-//                $responses = $answers->where('person_id', $answer->person_id );
-//                $data2 = [];
-//                foreach ($responses as $respons)
-//                {
-//                    $data2[$respons->criteria()->first()->title] = $respons->score;
-//                }
-//               $data[$personName] = $data2 ;
-//            }
-//        }
 
         return json_encode($data) ;
     }

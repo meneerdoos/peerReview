@@ -17,7 +17,7 @@
                 '                <div class="col-md-4"></div>\n' +
                 '                <div class="form-group col-md-4">\n' +
                 '                    <label for="description">Description:</label>\n' +
-                '                    <input  type="text" class="form-control" name="description[]">\n' +
+                '                    <input  value=" " type="text" class="form-control" name="description[]">\n' +
                 '                </div>\n' +
                 '            </div>'
         }

@@ -56,7 +56,6 @@ class Peer_review extends Model
         }
 
         return $people ;
-
     }
 
 
