@@ -13,4 +13,5 @@ class Setcriteria extends Model
         return $this->belongsTo('App\Set','set_id','id');
 
     }
+
 }

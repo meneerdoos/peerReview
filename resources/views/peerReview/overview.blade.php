@@ -95,7 +95,7 @@
                                     <tr>
                                         <th> </th>
 
-                                        @foreach($peerReview->people() as $pers )
+                                        @foreach($group->people()->get() as $pers )
                                             @if($person->id != $pers->id )
                                                 <th scope="col">{{$pers->firstName}} {{$pers->lastName}}</th>
                                             @endif
@@ -107,7 +107,7 @@
                                     @foreach($peerReview->criteria()->get() as $crit)
                                         <tr>
                                             <td>{{$crit->title}}</td>
-                                            @foreach($peerReview->people() as $pers )
+                                            @foreach($group->people()->get() as $pers )
                                                 @if($person->id != $pers->id )
                                                     <td scope="col">
                                                         {{--{{dd($crit->answers()->where(['about_id' => $person->id])->where(['person_id' => $pers->id ]))}}--}}

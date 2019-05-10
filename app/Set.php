@@ -14,4 +14,10 @@ class Set extends Model
 
     }
 
+    public function getCriteriaAsArray()
+    {
+        return json_encode( $this->setCriteria()->get()->toArray());
+
+    }
+
 }

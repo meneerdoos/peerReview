@@ -2,24 +2,32 @@
 
 @section('content')
     <script>
-        console.log("loaded");
-        console.log("je hebt")
-        
+
+        var numberOfFields = 0 ;
+
+        function deleteFields(id)
+        {
+            field = document.getElementById(id);
+
+            field.remove();
+        }
         function addFields () {
+            numberOfFields ++ ;
             var place = document.getElementById('newFields');
-            var html =  ' <div class="row">\n' +
-                '                <div class="col-md-4"></div>\n' +
+            var html =  '   <div id=' +numberOfFields+ ' class="row ">\n' +
                 '                <div class="form-group col-md-4">\n' +
-                '                    <label for="title">Title:</label>\n' +
-                '                    <input  type="text" class="form-control" name="title[]">\n' +
+                '                    <input  required="" type="text" class="form-control" name="title[]">\n' +
                 '                </div>\n' +
-                '            </div>\n' +
-                '            <div class="row">\n' +
-                '                <div class="col-md-4"></div>\n' +
                 '                <div class="form-group col-md-4">\n' +
-                '                    <label for="description">Description:</label>\n' +
-                '                    <input  value=" " type="text" class="form-control" name="description[]">\n' +
+                '                    <input required="" type="text" class="form-control" name="description[]">\n' +
                 '                </div>\n' +
+                '                <div class="form-group col-md-4">\n' +
+                '                    <a onclick="deleteFields('+numberOfFields+')" ><i class="fa fa-trash" aria-hidden="true"></i>\n  </a>\n' +
+                '                </div>\n' +
+                '\n' +
+                '                \n' +
+                '\n' +
+                '\n' +
                 '            </div>';
 
             var row = document.createElement('div');
@@ -47,6 +55,44 @@
             //     '            </div>'
         }
 
+        function selecting(set)
+        {
+
+            for( counter=0 ; counter < set.length ; counter++ )
+            {
+                numberOfFields++;
+                console.log(set[counter]);
+                var place = document.getElementById('precriteria');
+                var html =  '   <div id=' +numberOfFields+ ' class="row ">\n' +
+                    '                <div class="form-group col-md-4">\n' +
+                    '                    <input  required="" value="'+set[counter]['title']+'" type="text" class="form-control" name="title[]">\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group col-md-4">\n' +
+                    '                    <input  required="" value="'+set[counter]['description']+'" type="text" class="form-control" name="description[]">\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group col-md-4">\n' +
+                    '                    <a onclick="deleteFields('+numberOfFields+')" ><i class="fa fa-trash" aria-hidden="true"></i>\n  </a>\n' +
+                    '                </div>\n' +
+                    '\n' +
+                    '                \n' +
+                    '\n' +
+                    '\n' +
+                    '            </div>';
+
+                var row = document.createElement('div');
+                row.className= "row";
+                row.innerHTML = html ;
+
+                place.appendChild(row);
+
+
+            }
+
+
+
+        }
+
+
     </script>
 
     <div class="container">
@@ -62,23 +108,23 @@
         <form  method="post" data-parsley-validate="" action="/saveStepTwo">
             {!! csrf_field() !!}
             <div class="row">
-                <div class="col-md-4"></div>
                 <div class="form-group col-md-4">
                     <label for="title">Title:</label>
-                    <input  type="text" class="form-control" name="title[]">
+                    <input required="" type="text" class="form-control" name="title[]">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4"></div>
                 <div class="form-group col-md-4">
                     <label for="description">Description:</label>
-                    <input  type="text" class="form-control" name="description[]">
+                    <input required="" type="text" class="form-control" name="description[]">
                 </div>
-            </div>
-            <div id="newFields">
+
+
+
 
             </div>
-            <div class="row">
+            <div id="newFields"></div>
+            <div id="precriteria"></div>
+
+                <div class="row">
                 <div class="col-md-4"></div>
                 <div class="form-group col-md-4">
                     <button type="button" onclick="addFields()" class="btn btn-success" style="margin-left:38px"> + </button>
@@ -92,7 +138,7 @@
                 <div class="form-group col-md-4">
                     <label for="import">import set:</label>
                     @foreach(\App\Set::all() as $set )
-                    <input type="checkbox" name="set[]" value="{{$set->id}}" > {{$set->name}} </input>
+                    <input type="checkbox" name="set[]" onchange=" selecting({{$set->getCriteriaAsArray()}}) " value="{{$set->id}}" > {{$set->name}} </input>
                     @endforeach
 
                     <input type="hidden" id="peerReviewId" name="peerReviewId" value="{{$peerReviewId}}">

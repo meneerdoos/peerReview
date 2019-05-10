@@ -113,23 +113,14 @@ class PeerReviewController extends Controller
         $person = Person::where('token', $link)->first();
         $personId = $person->id;
         $peerReview = Peer_review::findorfail($id);
-        $people = $peerReview->people();
-
-        $peopleFiltered = $people->filter(function($value) use ( $personId ){
-            if ($value->id != $personId) {
-                return true ;
-            }
-        })->values();
-
-
-
+        $people = $person->getGroupPeopleF();
         $criteria = $peerReview->criteria()->get();
 
 //        $c = $c->filter(function($item) {
 //            return $item->id != 2;
 //        });
 
-        return view ('peerReview.show', ['id'=> $id, 'from'=> $personId , 'criteria' => $criteria, 'people' => $peopleFiltered ]);
+        return view ('peerReview.show', ['id'=> $id, 'from'=> $personId , 'criteria' => $criteria, 'people' => $people ]);
 
     }
 

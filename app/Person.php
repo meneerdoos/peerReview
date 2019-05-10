@@ -12,7 +12,22 @@ class Person extends Model
     public function group()
     {
         return $this->belongsTo('App\Group','group_id','id');
+    }
 
+    public function getGroupPeople()
+    {
+        return $this->group()->first()->people()->get();
+    }
+
+    public function getGroupPeopleF()
+    {
+        $personId = $this->id ;
+        $peopleFiltered = $this->getGroupPeople()->filter(function($value) use ( $personId ){
+            if ($value->id != $personId) {
+                return true ;
+            }
+        })->values();
+        return $peopleFiltered;
     }
 
     public function peerReview()
@@ -20,7 +35,6 @@ class Person extends Model
         $group = $this->group()->first();
         $peerReview = $group->peerReview()->first();
         return $peerReview ;
-
     }
 
     public function getGraphData()
@@ -28,7 +42,7 @@ class Person extends Model
         $peerReview = $this->peerReview();
         $answers = $peerReview ->answers()->where('about_id', $this->id );
         $data = [] ;
-        $amount = 0 ;
+        //$amount = 0 ;
 
         foreach( $answers as $answer ) {
             $amount = 0;
@@ -43,65 +57,103 @@ class Person extends Model
                 }
                 $data[$criteriaName] = round((($amount) / $count ), 2);
             }
-
         }
-
         return json_encode($data) ;
-    }
-
-    public function calculatePAfactor()
-    {
-        // som waarderingen - hoogste - laagste / (aantal beoordelaars - 2 )
-
-        $peerReview = $this->peerReview();
-        $aantalPersonen = $peerReview->people()->count();
-        if($aantalPersonen == null ){
-            return 0;
-        }else{
-            $answers = $peerReview->answers()->where('about_id', $this->id );
-            if($answers == null )
-            {
-                return 0;
-            }
-            else{
-                $somWaarderingen = $peerReview->answers()->where('about_id', $this->id )->sum('score');
-//              $aantal = $peerReview->answers()->where('about_id', $this->id )->count() ;
-                $max = $peerReview->answers()->where('about_id', $this->id )->max('score');
-                $min = $peerReview->answers()->where('about_id', $this->id )->min('score') ;
-                $PAfactor = (($somWaarderingen - $max - $min)/($aantalPersonen-2)) ;
-                return round($PAfactor,2) ;
-            }
-
-        }
-
-
     }
 
     public function calculatePAfactorscore()
     {
+        // som waarderingen - hoogste - laagste / (aantal beoordelaars - 2 )
+
+        $sums = $this->newCollection() ;
+        $people = $this->getGroupPeopleF();
+        $peerReview  = $this->peerReview()->first();
+        $answers = $peerReview->answers();
+        $aantal = $people->count();
+        foreach( $people as $person)
+        {
+            $ans = $answers->where('about_id',4)->where('person_id',6);
+            $sum = $ans->sum('score');
+            $sums->push($sum);
+        }
+
+        if($aantal == 0 )
+        {
+            return 'x' ;
+        }
+
+        //Als je met minder als 4 beoordelaars werkt ga je niet het minimum en maximum aftrekken
+        if($aantal < 4)
+        {
+            $total = $sums->sum();
+            $t = $total ;
+            $n = $aantal ;
+        }
+        else
+        {
+            $min = $sums->min();
+            $max = $sums->max();
+            $total = $sums->sum();
+            $t = $total -$min - $max ;
+            $n = $aantal -2 ;
+        }
+            $results = ($t / $n );
+            return round($results,2);
+
+
+
+//        dd($answers);
+//        $peerReview = $this->peerReview();
+//        $aantalPersonen = $peerReview->people()->count();
+//        if($aantalPersonen == null ){
+//            return 0;
+//        }else{
+//            $answers = $peerReview->answers()->where('about_id', $this->id );
+//            if($answers == null )
+//            {
+//                return 0;
+//            }
+//            else{
+//                $somWaarderingen = $peerReview->answers()->where('about_id', $this->id )->sum('score');
+////              $aantal = $peerReview->answers()->where('about_id', $this->id )->count() ;
+//                $max = $peerReview->answers()->where('about_id', $this->id )->max('score');
+//                $min = $peerReview->answers()->where('about_id', $this->id )->min('score') ;
+//                $PAfactor = (($somWaarderingen - $max - $min)/($aantalPersonen-2)) ;
+//                return round($PAfactor,2) ;
+//            }
+//
+//        }
+
+
+    }
+
+    public function calculatePAfactor()
+    {
         // Pa factorscore / ( aantal criteria * score gem prest )
 
         $peerReview = $this->peerReview();
-        $PAfactor = $this->calculatePAfactor();
+        $PAfactor = $this->calculatePAfactorscore();
+
+        if($PAfactor == 'x')
+        {
+            return 'x';
+        }
 
         $Criteria = $peerReview->criteria();
         if($Criteria->count() == 0 )
         {
-            return 0;
+            return 'x';
         }
         else{
             $aantalCriteria = $Criteria->count();
             if($peerReview->answers()->count()==0){
-                return 0;
+                return 'x';
             }else{
                 $average = $peerReview->answers()->average('score');
                 $PAfactorscore = (($PAfactor)/($aantalCriteria*$average));
                 return round($PAfactorscore,2) ;
             }
-
         }
-
-
     }
 
     public function hasCompleted()
@@ -149,7 +201,6 @@ class Person extends Model
             {
                 $totaal += $answer->score ;
             }
-
             return round($totaal,2) ;
         }
     }

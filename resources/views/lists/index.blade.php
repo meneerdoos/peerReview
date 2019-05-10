@@ -12,12 +12,12 @@
     <div class="container">
         <div class="row ">
         @if($sets->isempty() )
-            <p>You have not created any peer reviews yet. Start by selecting Peer reviews in the menu </p>
+            <p>You have not created any lists yet. Start by selecting Peer reviews in the menu </p>
         @endif
         @foreach($sets as $set)
                 <div class="col-md-4">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><b>{{ $set->name }}</b></li>
+                        <li class="list-group-item"><a href="/lists/{{$set->id}}"><b>{{ $set->name }}</b></a></li>
                         @foreach($set->setCriteria()->get() as $criteria )
                             <li class="list-group-item">{{ $criteria->title }}</li>
 
