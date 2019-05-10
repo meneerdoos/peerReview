@@ -17,7 +17,7 @@
         @foreach($sets as $set)
                 <div class="col-md-4">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="/lists/{{$set->id}}"><b>{{ $set->name }}</b></a></li>
+                        <li class="list-group-item"><a href="/editList/{{$set->id}}"><b>{{ $set->name }}</b></a></li>
                         @foreach($set->setCriteria()->get() as $criteria )
                             <li class="list-group-item">{{ $criteria->title }}</li>
 

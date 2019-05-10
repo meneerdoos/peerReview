@@ -40,6 +40,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/saveList', array('as' => 'saveList', 'uses' => 'ListController@save'));
 
+    Route::get('/editList/{id}', array('as' => 'showEditList', 'uses' => 'ListController@showEdit'));
+
+
+    Route::post('/editList/{id}', array('as' => 'EditList', 'uses' => 'ListController@Edit'));
+
+
+    Route::get('/editSetCriteria/{id}', array('as' => 'showEditList', 'uses' => 'ListController@showEditSetCriteria'));
+
+    Route::post('/editSetCriteria/{id}', array('as' => 'EditSetCriteria', 'uses' => 'ListController@EditSetCriteria'));
+
+    Route::post('/deleteSetCriteria/{id}', array('as' => 'DeleteSetCriteria', 'uses' => 'ListController@DeleteSetCriteria'));
 
 //add group to peer review
 

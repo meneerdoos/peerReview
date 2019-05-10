@@ -30,10 +30,7 @@ class ListController extends Controller
         return view('lists.index',['sets' => $sets ]);
     }
 
-    public function show($id)
-    {
-        return view('user.profile', ['user' => User::findorfail($id)]);
-    }
+
 
     public function add()
     {
@@ -42,18 +39,53 @@ class ListController extends Controller
 
     public function showEdit($id)
     {
-        return view('group.edit',['group'=> Group::findorfail($id)]);
+        $list = Set::findorfail($id);
+
+        return view('lists.edit',['list'=> $list]);
     }
 
-    public function saveEdit($id, Request $request)
+    public function showEditSetCriteria($id)
     {
+        dd($id);
+    }
+
+    public function editSetCriteria($id, Request $request)
+    {
+        dd($id);
+    }
+
+    public function addSetCriteria()
+    {
+        dd('add');
+    }
+
+    public function saveSetCriteria(Request $request)
+    {
+        dd($request);
+    }
+
+    public  function deleteSetCriteria(Request $request,$id)
+    {
+        Setcriteria::destroy($id);
+
+        $request->session()->flash('alert-success', 'Criteria was successfully deleted!');
+        return redirect ('/lists');
+
+    }
+
+    public function Edit($id, Request $request)
+    {
+        $set = Set::findorfail($id);
+        $set->name =  $request->name ;
+        $set->description = $request->description ;
+        $set->save();
+
         $group = Group::findorfail($id);
         $group->name = $request->name ;
         $group->description = $request->description ;
         $group-> save();
-        $request->session()->flash('alert-success', 'Group was successful edited!');
-        $link = "/editPeerReview/".$group->peer_review_id ;
-        return redirect ($link);
+        $request->session()->flash('alert-success', 'Set was successfully edited!');
+        return redirect ('/lists');
     }
 
     public function save(Request $request)
@@ -67,7 +99,6 @@ class ListController extends Controller
         {
             if( !empty($tit))
             {
-                if( (!empty($request->title[$count])) & (!empty($request->description[$count]))) {
                     $setCriteria = new Setcriteria();
                     $setCriteria->title = $request->title[$count];
                     $setCriteria->description = $request->description[$count];
@@ -75,8 +106,6 @@ class ListController extends Controller
                     $setCriteria->save();
                     $setCriteria->id;
                     $count++;
-                }
-
             }
 
         }
