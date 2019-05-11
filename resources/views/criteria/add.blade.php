@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','Add criteria')
 
 @section('content')
 <div class="container">
@@ -19,11 +20,7 @@
                 <input required="" type="text" class="form-control" name="description">
             </div>
         </div>
-        <p>import set</p>
-        <input type="checkbox" name="richting[]" value="ea">Elektronica-ICT</input>
-        <input type="checkbox" name="richting[]" value="che">Chemie</input>
-        <input type="checkbox" name="richting[]" value="me">Mechanica</input>
-        <input type="checkbox" name="richting[]" value="bk">Bouwkunde</input>
+
         <input type="hidden" id="peerReviewId" name="peerReviewId" value="{{$peerReviewId}}">
         <div class="row">
             <div class="col-md-4"></div>

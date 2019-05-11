@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','Add peer review')
 
 @section('content')
 

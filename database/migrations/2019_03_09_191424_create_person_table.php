@@ -21,7 +21,6 @@ class CreatePersonTable extends Migration
             $table->string('email');
             $table->boolean('completed');
             $table->string('token')->nullable();
-            $table->string('uniqueLink')->nullable();
             $table->timestamps();
         });
     }

@@ -5,8 +5,7 @@
     <link rel="icon" type="image/png" href="assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Light Bootstrap Dashboard by Creative Tim</title>
-    <script src="@yield('script')"></script>
+    <title>Peer Review</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -74,7 +73,6 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    {{--<a class="navbar-brand" href="#">Dashboard</a>--}}
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -93,12 +91,7 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                {{--<li>--}}
-                                    {{--<a href="/editUser" class="dropdown-toggle" data-toggle="dropdown">--}}
-                                        {{--Edit--}}
 
-                                    {{--</a>--}}
-                                {{--</li>--}}
                                 <li>
                                     <a href="/logout" >
                                         <i class="fas fa-power-off"></i> Logout
@@ -127,7 +120,7 @@
             <div class="container-fluid">
 
                 <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://github.com/meneerdoos">Meneer Doos</a>, made with love for a better web
+                    &copy; <script>document.write(new Date().getFullYear())</script> Footer
                 </p>
             </div>
         </footer>
@@ -136,6 +129,7 @@
 </div>
 
 
+<script src="@yield('script')" type="text/javascript"></script>
 
 
 <!--   Core JS Files   -->

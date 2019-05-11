@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','STEP ONE')
 
 @section('content')
 

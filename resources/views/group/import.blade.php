@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','import')
 
 @section('content')
 <form data-parsley-validate="" method="post" action="/editGroup/{{$groupId}}/saveImport" enctype="multipart/form-data" >

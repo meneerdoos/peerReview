@@ -1,9 +1,12 @@
 @extends('template')
+@section('title','DASHBOARD')
+
 @section('content')
 <div class="container">
     @if($peerReviews->isempty() )
-        <p>You have not created any peer reviews yet. Start by selecting Peer reviews in the menu </p>
+        <p>You have not created any peer reviews yet.  </p>
     @endif
+    <div class="row">
     @foreach($peerReviews as $peerReview)
     <div class="col-md-4">
         <a href="/overview/{{$peerReview->id}}">
@@ -36,5 +39,9 @@
         </a>
     </div>
         @endforeach
+    </div>
+        <div class="row">
+            <a href="/stepOne" ><button type="button" class="btn btn-primary"> add </button></a>
+        </div>
 </div>
     @endsection('content')

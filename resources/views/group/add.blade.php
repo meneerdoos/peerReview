@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','Add group')
 
 @section('content')
 <div class="flash-message">
@@ -10,33 +11,25 @@
     @endforeach
 </div>
 <div class="container">
-    <h2>Add group to the peer review </h2><br  />
-    <form method="post" data-parsley-validate="" action="/saveGroup">
+    <form data-parsley-validate="" method="post" action="/editPeerReview/{{$peerReviewId}}/addGroup" enctype="multipart/form-data" >
         {!! csrf_field() !!}
 
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
-                <label for="title">Name:</label>
-                <input required="" type="text" class="form-control" name="name" >
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="form-group col-md-4">
-                <label for="description">Description:</label>
-                <input required="" type="text" class="form-control" name="description" >
+                <label for="title">select csv:</label>
+                <input required="" type="file" name="csv" >
             </div>
         </div>
         <input type="hidden" id="peerReviewId" name="peerReviewId" value="{{$peerReviewId}}">
 
+
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
-                <button type="submit" class="btn btn-success" style="margin-left:38px">Add Group </button>
+                <button type="submit" class="btn btn-success" style="margin-left:38px"> Submit </button>
             </div>
         </div>
-
     </form>
 
 

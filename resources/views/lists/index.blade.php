@@ -1,18 +1,19 @@
 @extends('template')
+@section('title','Criteria lists')
 
 @section('content')
     <div class="flash-message">
         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
             @if(Session::has('alert-' . $msg))
 
-                <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="/peerReviews" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="/lists" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
             @endif
         @endforeach
     </div>
     <div class="container">
         <div class="row ">
         @if($sets->isempty() )
-            <p>You have not created any lists yet. Start by selecting Peer reviews in the menu </p>
+            <p>You have not created any lists yet.  </p>
         @endif
         @foreach($sets as $set)
                 <div class="col-md-4">
@@ -22,6 +23,10 @@
                             <li class="list-group-item">{{ $criteria->title }}</li>
 
                         @endforeach
+                        <li class="list-group-item">  <form action="/deleteList/{{$set->id }}" method="post">
+                                <button class="btn btn-info" type="submit" name="complete"  > Delete </button>
+                            </form></li>
+
 
                     </ul>
                 </div>

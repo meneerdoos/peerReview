@@ -20,6 +20,22 @@ class Peer_review extends Model
         return $this->hasMany('App\Group','peer_review_id','id');
     }
 
+    public function deletePeerReview()
+    {
+        $criteria = $this->criteria();
+        $groups = $this->groups();
+
+        foreach ($groups as $group)
+        {
+            $group->deleteGroup();
+        }
+        foreach($criteria as $crit)
+        {
+            $crit->delete();
+        }
+        $this->delete();
+    }
+
     public function answers()
     {
         $criteria = $this->criteria()->get();

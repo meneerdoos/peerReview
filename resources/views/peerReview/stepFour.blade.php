@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','STEP FOUR')
 
 @section('content')
     <div class="container">
@@ -12,9 +13,22 @@
         </div>
         peer review completed
 
-        click here to notify students to complete their peer review .
-        <form action="/saveStepFour/{{$peerReviewId }}" method="post">
-            <button class="btn btn-info" type="submit" name="complete"  > Notify </button>
-        </form>
+        click here to notify students to complete their peer review  or                     <a href="/"> return </a>
+
+        <div class="row">
+            <div class="col-4">
+
+            </div>
+            <div class="col-4">
+                <form action="/saveStepFour/{{$peerReviewId }}" method="post">
+                    <button class="btn btn-info" type="submit" name="complete"  > Notify </button>
+                </form>
+
+            </div>
+            <div class="col-4">
+
+            </div>
+        </div>
+
     </div>
 @endsection('content')

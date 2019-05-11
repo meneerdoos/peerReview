@@ -9,12 +9,9 @@ use App\Mail\NotifyToComplete;
 use App\Peer_review;
 use App\Person;
 use App\Set;
-use App\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use PhpParser\Node\Expr\Array_;
 
 class PeerReviewController extends Controller
 {
@@ -42,8 +39,6 @@ class PeerReviewController extends Controller
     public function showEditPeerReview($id)
     {
         $peerReview = Peer_review::findorfail($id);
-
-        //dd($peerReview);
         return view('peerReview.edit',['peerReview'=> $peerReview ]);
     }
 
@@ -64,7 +59,8 @@ class PeerReviewController extends Controller
 
     public function deletePeerReview($id, Request $request)
     {
-        Peer_review::destroy($id);
+        $peerReview = Peer_review::findorfail($id);
+        $peerReview->deletePeerReview();
 
         $request->session()->flash('alert-success', 'Peer Review was successful deleted!');
         return redirect()->route("peerReviewIndex");
@@ -115,11 +111,6 @@ class PeerReviewController extends Controller
         $peerReview = Peer_review::findorfail($id);
         $people = $person->getGroupPeopleF();
         $criteria = $peerReview->criteria()->get();
-
-//        $c = $c->filter(function($item) {
-//            return $item->id != 2;
-//        });
-
         return view ('peerReview.show', ['id'=> $id, 'from'=> $personId , 'criteria' => $criteria, 'people' => $people ]);
 
     }
@@ -145,23 +136,23 @@ class PeerReviewController extends Controller
     public function saveStepTwo(Request $request)
     {
         $count = 0 ;
-        $sets = $request->set;
-        if ($sets !== null )
-        {
-            foreach( $sets as $set)
-            {
-                $s = Set::findorfail($set);
-                $criteria = $s->setCriteria()->get();
-                foreach ($criteria as $crit )
-                {
-                    $c = new Criteria();
-                    $c->title = $crit->title ;
-                    $c->description = $crit->description ;
-                    $c->peer_review_id = $request->peerReviewId;
-                    $c->save();
-                }
-            }
-        }
+//        $sets = $request->set;
+//        if ($sets !== null )
+//        {
+//            foreach( $sets as $set)
+//            {
+//                $s = Set::findorfail($set);
+//                $criteria = $s->setCriteria()->get();
+//                foreach ($criteria as $crit )
+//                {
+//                    $c = new Criteria();
+//                    $c->title = $crit->title ;
+//                    $c->description = $crit->description ;
+//                    $c->peer_review_id = $request->peerReviewId;
+//                    $c->save();
+//                }
+//            }
+//        }
 
         if( !empty($request->title) )
         {
@@ -214,7 +205,6 @@ class PeerReviewController extends Controller
                     $persoon -> lastName = $csvLine[1];
                     $persoon -> email = $csvLine[2];
                     $persoon->group_id = $group->id ;
-                    $persoon->uniqueLink = null;
                     $persoon->completed = 0 ;
                     $persoon->save();
                     $count ++;
@@ -226,7 +216,6 @@ class PeerReviewController extends Controller
                     $persoon -> lastName = $csvLine[1];
                     $persoon -> email = $csvLine[2];
                     $persoon->group_id = $groups[$csvLine[3]] ;
-                    $persoon->uniqueLink = null;
                     $persoon->completed = 0 ;
                     $persoon->save();
                     $count ++;

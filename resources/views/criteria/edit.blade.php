@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','edit group')
 
 @section('content')
 <div class="flash-message">
@@ -11,7 +12,7 @@
 </div>
 <div class="container">
     <h2>Edit a new peer review </h2><br  />
-    <form method="post" data-parsley-validate="" action="/editCriteria/{{$criteria->peer_review_id}}">
+    <form method="post" data-parsley-validate="" action="/editCriteria/{{$criteria->id}}">
         {!! csrf_field() !!}
 
         <div class="row">

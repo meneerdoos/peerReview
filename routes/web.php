@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/editList/{id}', array('as' => 'EditList', 'uses' => 'ListController@Edit'));
 
+    Route::post('/deleteList/{id}', array('as' => 'DeleteList', 'uses' => 'ListController@Delete'));
 
     Route::get('/editSetCriteria/{id}', array('as' => 'showEditList', 'uses' => 'ListController@showEditSetCriteria'));
 
@@ -52,12 +53,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/deleteSetCriteria/{id}', array('as' => 'DeleteSetCriteria', 'uses' => 'ListController@DeleteSetCriteria'));
 
-//add group to peer review
+//group
 
 
     Route::get('/editPeerReview/{id}/addGroup', array('as' => 'addGroup', 'uses' => 'GroupController@add'));
 
-    Route::post('/saveGroup', array('as' => 'saveGroup', 'uses' => 'GroupController@save'));
+    Route::post('/editPeerReview/{id}/addGroup', array('as' => 'saveGroup', 'uses' => 'GroupController@save'));
+
+    Route::post('/deleteGroup/{id}', array('as' => 'deleteGroup', 'uses' => 'GroupController@delete'));
 
 //peer review wizard
 //

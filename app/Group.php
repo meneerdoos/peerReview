@@ -19,6 +19,19 @@ class Group extends Model
 
     }
 
+    public  function deleteGroup()
+    {
+        $people = $this->people()->get();
+        if( !empty($people))
+        {
+            foreach($people as $person)
+            {
+                $person->delete();
+            }
+        }
+        $this->delete();
+    }
+
     public function getAvgScore()
     {
         $people = $this->people()->get();

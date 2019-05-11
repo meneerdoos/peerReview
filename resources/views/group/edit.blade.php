@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','edit group')
 
 @section('content')
 <div class="flash-message">
@@ -47,8 +48,7 @@
         <th scope="col">first name</th>
         <th scope="col">last name </th>
         <th scope="col">email</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+
     </thead>
     @foreach($group->people()->get() as $person )
         <tr>
@@ -56,18 +56,11 @@
             <td>{{$person->firstName}}</td>
             <td>{{$person->lastName}}</td>
             <td>{{$person->email}}</td>
-            <td> <a href=""> <button type="button" class="btn btn-success"> edit </button></a> </td>
-            <td>
-                <form>
-                    {{csrf_field()}}
-                    <button type="submit" class="btn btn-danger"> delete </button>
-                </form>
-            </td>
+
         </tr>
     @endforeach
 
 </table>
-<a href="/showImport/{{$group->id}}"><button type="button" class="btn btn-info"> Import csv </button></a>
 </div>
 
 @endsection('content')

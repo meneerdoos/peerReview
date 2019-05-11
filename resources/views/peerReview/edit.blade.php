@@ -1,4 +1,5 @@
 @extends('template')
+@section('title','Edit Peer review')
 
 @section('content')
 
@@ -96,7 +97,7 @@
                 <td> {{$group-> id }} </td>
                 <td>{{ $group-> name }}</td>
                 <td><a href="/editGroup/{{$group->id}}" ><button type="button" class="btn btn-primary">edit</button></a> </td>
-                <td><form action="/deleteGroup" method="POST">
+                <td><form action="/deleteGroup/{{$group->id}}" method="POST">
                         {{ csrf_field() }}
 
                         <button type="submit" class="btn btn-primary">delete</button>

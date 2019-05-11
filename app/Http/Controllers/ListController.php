@@ -44,14 +44,43 @@ class ListController extends Controller
         return view('lists.edit',['list'=> $list]);
     }
 
+    public function Delete($id, Request $request)
+    {
+        $list = Set::findorfail($id);
+        $setCriteria = $list->setCriteria()->get();
+        if(!empty($setCriteria))
+        {
+            foreach ( $setCriteria as $setCrit) {
+                $setCrit->delete();
+            }
+        }
+
+        $list->delete();
+        $request->session()->flash('alert-success', 'List has been deleted');
+        return redirect('/lists');
+
+    }
+
     public function showEditSetCriteria($id)
     {
-        dd($id);
+        $criteria = Setcriteria::findorfail($id);
+
+
+        return view('setCriteria.show',['criteria'=> $criteria]);
     }
 
     public function editSetCriteria($id, Request $request)
     {
-        dd($id);
+        $setCriteria = Setcriteria::findorfail($id);
+        $setCriteria->title = $request->title ;
+        $setCriteria->description = $request->description ;
+        $setCriteria->save();
+
+        $setid = $setCriteria->set()->first()->id;
+
+        $link= '/editList/'.$setid ;
+        $request->session()->flash('alert-success', 'criteria has been deleted');
+        return redirect($link);
     }
 
     public function addSetCriteria()
@@ -66,10 +95,13 @@ class ListController extends Controller
 
     public  function deleteSetCriteria(Request $request,$id)
     {
-        Setcriteria::destroy($id);
+        $setCriteria = Setcriteria::findorfail($id);
 
-        $request->session()->flash('alert-success', 'Criteria was successfully deleted!');
-        return redirect ('/lists');
+        $setid = $setCriteria->set()->first()->id;
+
+        $link= '/editList/'.$setid ;
+        $request->session()->flash('alert-success', 'criteria has been deleted');
+        return redirect($link);
 
     }
 
@@ -80,11 +112,8 @@ class ListController extends Controller
         $set->description = $request->description ;
         $set->save();
 
-        $group = Group::findorfail($id);
-        $group->name = $request->name ;
-        $group->description = $request->description ;
-        $group-> save();
-        $request->session()->flash('alert-success', 'Set was successfully edited!');
+
+        $request->session()->flash('alert-success', 'List was successfully edited!');
         return redirect ('/lists');
     }
 
