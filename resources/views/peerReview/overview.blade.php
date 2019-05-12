@@ -75,6 +75,7 @@
 </div>
 <div class="container">
     @foreach($peerReview->groups()->get() as $group)
+        {{--{{dd($group->getProgress())}}--}}
         <div class="col-md-8">
                 <div class="card ">
                     <div class="card-header ">
@@ -85,7 +86,7 @@
                     <div class="card-footer ">
                         <div class="legend">
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: {{$peerReview->getProgress()}}%;" aria-valuenow="{{$group->getProgress()}}" aria-valuemin="0" aria-valuemax="100">{{$peerReview->getProgress()}}%</div>
+                                <div class="progress-bar" role="progressbar" style="width: {{$group->getProgress()}}%;" aria-valuenow="{{$group->getProgress()}}" aria-valuemin="0" aria-valuemax="100">{{$group->getProgress()}}%</div>
                             </div>
                             <p><i class="fas fa-comment"></i> {{$group->description }}</p>
                         @foreach($group->people()->get() as $person)

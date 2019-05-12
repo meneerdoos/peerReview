@@ -52,7 +52,6 @@ class Peer_review extends Model
             }
         }
         return $answers ;
-
     }
 
     public function people()

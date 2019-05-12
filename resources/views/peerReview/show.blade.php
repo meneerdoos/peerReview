@@ -22,18 +22,20 @@
     <form data-parsley-validate="" method="post" action="/completePeerReview/{{$id}}">
             {!! csrf_field() !!}
     @foreach($people as $person)
-        <h1> {{ $person-> firstName }}</h1>
+        <h1 style="color: darkblue"> {{ $person-> firstName }}</h1>
         @foreach( $criteria as $crit )
-            <h3> {{$crit->title}}</h3>
+            <h3 style="color: cornflowerblue;"> {{$crit->title}}</h3>
             <p>{{$crit->description }}</p>
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="form-group col-md-4">
                         <select required="" name="score[]">
-                            <option value="-1">-1 werkt niet mee</option>
-                            <option value="0">0 werkt weinig mee</option>
-                            <option value="1">1 werkt mee</option>
-                            <option value="2">2 werkt goed mee</option>
+                            <option value="-1">-1 was a hinderence for the group</option>
+                            <option value="0">0 was of no help to the group</option>
+                            <option value="1">1 performed slightly less than average</option>
+                            <option value="2">2 Group average</option>
+                            <option value="3">3 Performed better than the rest of the group</option>
+
                         </select>
 
                         {{--<input type="text" class="form-control" name="score[]" value = " ">--}}
@@ -44,7 +46,7 @@
                     <div class="col-md-4"></div>
                     <div class="form-group col-md-4">
                         <i class="fas fa-pencil-alt prefix"></i>
-                        <textarea required="" name="comment[]" class="md-textarea form-control" rows="3"></textarea>
+                        <textarea  name="comment[]" class="md-textarea form-control" rows="3"></textarea>
                         <label for="comment">comment</label>
                         {{--<label for="comment">Comment:</label>--}}
                         {{--<input type="textarea" class="form-control" name="comment[]" value = " ">--}}

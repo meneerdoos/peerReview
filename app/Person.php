@@ -68,15 +68,17 @@ class Person extends Model
         $sums = $this->newCollection() ;
         $people = $this->getGroupPeopleF();
         $peerReview  = $this->peerReview()->first();
+
         $answers = $peerReview->answers();
+        $answersF = $answers->where('about_id',$this->id);
+
         $aantal = $people->count();
         foreach( $people as $person)
         {
-            $ans = $answers->where('about_id',4)->where('person_id',6);
+            $ans = $answersF->where('person_id',$person->id);
             $sum = $ans->sum('score');
             $sums->push($sum);
         }
-
         if($aantal == 0 )
         {
             return 'x' ;
@@ -99,32 +101,6 @@ class Person extends Model
         }
             $results = ($t / $n );
             return round($results,2);
-
-
-
-//        dd($answers);
-//        $peerReview = $this->peerReview();
-//        $aantalPersonen = $peerReview->people()->count();
-//        if($aantalPersonen == null ){
-//            return 0;
-//        }else{
-//            $answers = $peerReview->answers()->where('about_id', $this->id );
-//            if($answers == null )
-//            {
-//                return 0;
-//            }
-//            else{
-//                $somWaarderingen = $peerReview->answers()->where('about_id', $this->id )->sum('score');
-////              $aantal = $peerReview->answers()->where('about_id', $this->id )->count() ;
-//                $max = $peerReview->answers()->where('about_id', $this->id )->max('score');
-//                $min = $peerReview->answers()->where('about_id', $this->id )->min('score') ;
-//                $PAfactor = (($somWaarderingen - $max - $min)/($aantalPersonen-2)) ;
-//                return round($PAfactor,2) ;
-//            }
-//
-//        }
-
-
     }
 
     public function calculatePAfactor()
@@ -133,7 +109,6 @@ class Person extends Model
 
         $peerReview = $this->peerReview();
         $PAfactor = $this->calculatePAfactorscore();
-
         if($PAfactor == 'x')
         {
             return 'x';
@@ -149,7 +124,7 @@ class Person extends Model
             if($peerReview->answers()->count()==0){
                 return 'x';
             }else{
-                $average = $peerReview->answers()->average('score');
+                $average = 2;
                 $PAfactorscore = (($PAfactor)/($aantalCriteria*$average));
                 return round($PAfactorscore,2) ;
             }
@@ -169,7 +144,6 @@ class Person extends Model
 
     public function getAvgScore()
     {
-        //return 4 ;
         $answers = $this->peerReview()->answers()->where('about_id', $this->id) ;
         if ($answers->count() == 0)
         {

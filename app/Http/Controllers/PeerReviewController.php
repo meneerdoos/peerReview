@@ -8,7 +8,6 @@ use App\Criteria;
 use App\Mail\NotifyToComplete;
 use App\Peer_review;
 use App\Person;
-use App\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -101,7 +100,7 @@ class PeerReviewController extends Controller
         }
         Mail::to($person)->send(new NotifyToComplete($token, $id,$date));
         $request->session()->flash('alert-success', 'A Notify has been sent');
-        return redirect()->route("peerReviewIndex");
+        return redirect()->route("dashboard");
     }
 
     public function show($id, $link)
@@ -268,7 +267,15 @@ class PeerReviewController extends Controller
             $answer-> person_id = $request->from;
             $answer->about_id = $request->about[$i];
             $answer->score = $request->score[$i];
-            $answer->comment = $request->comment[$i];
+            $comment = $answer->comment[$i] ;
+            if( empty($comment))
+            {
+                $answer->comment = "";
+            }
+            else{
+                $answer->comment = $request->comment[$i];
+
+            }
             $answer->criteria_id = $request->criteria[$i];
             $answer->save();
 

@@ -2,6 +2,15 @@
 @section('title','DASHBOARD')
 
 @section('content')
+
+    <div class="flash-message">
+        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+            @if(Session::has('alert-' . $msg))
+
+                <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+            @endif
+        @endforeach
+    </div>
 <div class="container">
     @if($peerReviews->isempty() )
         <p>You have not created any peer reviews yet.  </p>
