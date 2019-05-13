@@ -35,6 +35,7 @@
                     <p><i class="fas fa-comment"></i>  @if($peerReview->criteria() == null )0 @else {{$peerReview->criteria()->count()}} @endif</p>
                     <p><i class="fas fa-calendar"></i> {{$peerReview->deadline}}</p>
                     <form action="/editPeerReview/{{$peerReview->id }}/notifyToComplete" method="post">
+                        {!! csrf_field() !!}
                         <button class="btn btn-info" type="submit" name="complete"  > Notify </button>
                     </form>
                 </div>
