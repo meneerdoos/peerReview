@@ -67,8 +67,7 @@ class Person extends Model
 
         $sums = $this->newCollection() ;
         $people = $this->getGroupPeopleF();
-        $peerReview  = $this->peerReview()->first();
-
+        $peerReview  = $this->peerReview();
         $answers = $peerReview->answers();
         $answersF = $answers->where('about_id',$this->id);
         $aantal = $people->count();
