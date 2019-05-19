@@ -33,7 +33,7 @@
                             <option value="-1">-1 was a hinderence for the group</option>
                             <option value="0">0 was of no help to the group</option>
                             <option value="1">1 performed slightly less than average</option>
-                            <option value="2">2 Group average</option>
+                            <option selected value="2">2 Group average</option>
                             <option value="3">3 Performed better than the rest of the group</option>
 
                         </select>

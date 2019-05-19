@@ -71,7 +71,6 @@ class Person extends Model
 
         $answers = $peerReview->answers();
         $answersF = $answers->where('about_id',$this->id);
-
         $aantal = $people->count();
         foreach( $people as $person)
         {

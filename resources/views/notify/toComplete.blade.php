@@ -319,7 +319,7 @@
                                                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                                         <tbody>
                                                         <tr>
-                                                            <td> <a href="http://peerReview.test/{{$id}}/{{$link  }}" target="_blank">Call To Action</a> </td>
+                                                            <td> <a href="http://localhost:8000/{{$id}}/{{$link  }}" target="_blank">Call To Action</a> </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
