@@ -24,6 +24,7 @@ class Peer_review extends Model
     {
         $criteria = $this->criteria();
         $groups = $this->groups();
+        $answers = $this->answers();
 
         foreach ($groups as $group)
         {
@@ -32,6 +33,10 @@ class Peer_review extends Model
         foreach($criteria as $crit)
         {
             $crit->delete();
+        }
+        foreach($answers as $ans)
+        {
+            $ans->delete();
         }
         $this->delete();
     }
@@ -52,6 +57,19 @@ class Peer_review extends Model
             }
         }
         return $answers ;
+    }
+
+    public function comments()
+    {
+        $answers = $this->answers();
+        $data = collect();
+        foreach ($answers as $ans )
+        {
+            if($ans->comment != ""){
+                $data->add($ans);
+            }
+        }
+        return $data;
     }
 
     public function people()

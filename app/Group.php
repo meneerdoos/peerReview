@@ -54,7 +54,7 @@ class Group extends Model
 
             }
 
-            return $avg ;
+            return round($avg, 2) ;
         }
 
 

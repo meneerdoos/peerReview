@@ -14,6 +14,15 @@ class Answer extends Model
             return $this->belongsTo('App\Criteria','criteria_id','id');
     }
 
+    public function from()
+    {
+
+    }
+
+    public function about()
+    {
+
+    }
 
 
 

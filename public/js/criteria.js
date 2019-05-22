@@ -35,12 +35,11 @@ function addFields () {
 
 function selecting(set)
 {
+    var place = document.getElementById('precriteria');
 
     for( counter=0 ; counter < set.length ; counter++ )
     {
         numberOfFields++;
-        console.log(set[counter]);
-        var place = document.getElementById('precriteria');
         var html =  '   <div id=' +numberOfFields+ ' class="row ">\n' +
             '                <div class="form-group col-md-4">\n' +
             '                    <input  required="" value="'+set[counter]['title']+'" type="text" class="form-control" name="title[]">\n' +
